@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3lx8ukcxprqm"]
+[gd_scene load_steps=7 format=3 uid="uid://c3lx8ukcxprqm"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_xdei3"]
 [ext_resource type="PackedScene" uid="uid://b8cydty340bc2" path="res://paddle.tscn" id="2_or24r"]
 [ext_resource type="Script" path="res://background.gd" id="3_0l7n3"]
 [ext_resource type="FontFile" uid="uid://bg3rgt2s8u2xq" path="res://pong_font/pong-score.ttf" id="4_sok6d"]
+[ext_resource type="AudioStream" uid="uid://bh6i4f4rnvbds" path="res://pong_score.mp3" id="5_74a1w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0sfb5"]
 size = Vector2(37.3542, 98.938)
@@ -82,3 +83,6 @@ theme_override_fonts/font = ExtResource("4_sok6d")
 theme_override_font_sizes/font_size = 64
 text = "0"
 horizontal_alignment = 1
+
+[node name="ScoreSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_74a1w")

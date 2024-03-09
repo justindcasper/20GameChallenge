@@ -51,6 +51,7 @@ func serve_ball(direction : Direction):
     
 # Free the ball, wait a second, and serve
 func reset(direction : Direction):
+    $ScoreSound.play()
     ball.queue_free()
     await get_tree().create_timer(1.0).timeout
     serve_ball(direction)

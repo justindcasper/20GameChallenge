@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://txq8bh1lbsfo"]
+[gd_scene load_steps=5 format=3 uid="uid://txq8bh1lbsfo"]
 
 [ext_resource type="Script" path="res://ball.gd" id="1_dcimx"]
 [ext_resource type="Texture2D" uid="uid://0p3l0c2rp6yl" path="res://ball.png" id="2_svpxt"]
+[ext_resource type="AudioStream" uid="uid://bmj1vrmypju84" path="res://pong_hit.mp3" id="3_i7e6w"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i0tsu"]
 radius = 20.0
@@ -21,5 +22,8 @@ shape = SubResource("CircleShape2D_i0tsu")
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(-10, -10)
 rect = Rect2(-10, -10, 40, 40)
+
+[node name="SoundEffect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_i7e6w")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

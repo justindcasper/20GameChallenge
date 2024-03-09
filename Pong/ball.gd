@@ -10,6 +10,7 @@ func _physics_process(delta):
     var motion = velocity * delta * speed
     var collision_info = move_and_collide(motion)
     if collision_info:
+        $SoundEffect.play()
         var reflect = collision_info.get_remainder().bounce(
             collision_info.get_normal())
         velocity = velocity.bounce(collision_info.get_normal()) * 1.1
