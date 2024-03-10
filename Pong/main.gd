@@ -8,6 +8,7 @@ const SERVE_BOT_LIMIT = 996
 var ball
 var left_score : int = 0
 var right_score : int = 0
+var singleplayer : bool
 
 enum Direction {
     LEFT,
@@ -16,15 +17,27 @@ enum Direction {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+    # Go to start menu at first
     get_tree().paused = true
+    
     serve_ball(Direction.RIGHT)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-    #pass
+func _process(delta):
+    if singleplayer and is_instance_valid(ball):
+        # Basically, just follow the ball. This is hard to beat, but not
+        # impossible. Could add some random processing "failures"?
+        var paddle_pos = $PaddleLeft.position.y
+        var paddle_half_length = $PaddleLeft/CollisionShape2D.shape.size.y / 2
+        if (paddle_pos - paddle_half_length) > ball.position.y:
+            $PaddleLeft.move($PaddleLeft.Direction.UP, delta)
+        elif (paddle_pos + paddle_half_length) < ball.position.y:
+            $PaddleLeft.move($PaddleLeft.Direction.DOWN, delta)
+            
     
-func _unhandled_key_input(event):
+func _unhandled_key_input(_event):
+    # Pause menu
     if Input.is_action_just_pressed("pause"):
         get_tree().paused = true
         $MainMenu.show()
@@ -85,4 +98,9 @@ func _on_ball_right_goal():
     
 # When a game is restarted in the menu
 func _on_main_menu_restarted(mode):
+    # If we're going to single player mode, turn off processing on the left
+    # paddle. Turn it on if we're multiplayer
+    singleplayer = ($MainMenu.Mode.SINGLE == mode)
+    $PaddleLeft.set_process(not singleplayer)
+    # Restart the game
     reset(Direction.RIGHT, false)

@@ -5,6 +5,7 @@ enum Mode {
     MULTI,
 }
 
+# We should only allow $BackButton to do anything if a game is in progress
 var started : bool = false
 
 signal restarted(mode : Mode)

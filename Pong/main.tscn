@@ -90,4 +90,36 @@ stream = ExtResource("5_74a1w")
 
 [node name="MainMenu" parent="." instance=ExtResource("6_46ev7")]
 
+[node name="LabelW" type="Label" parent="."]
+offset_left = 32.0
+offset_top = 128.0
+offset_right = 72.0
+offset_bottom = 151.0
+text = "W"
+horizontal_alignment = 1
+
+[node name="LabelS" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 1032.0
+offset_right = 64.0
+offset_bottom = 1055.0
+text = "S"
+horizontal_alignment = 1
+
+[node name="LabelUp" type="Label" parent="."]
+offset_left = 1856.0
+offset_top = 128.0
+offset_right = 1896.0
+offset_bottom = 151.0
+text = "Up"
+horizontal_alignment = 1
+
+[node name="LabelDown" type="Label" parent="."]
+offset_left = 1856.0
+offset_top = 1032.0
+offset_right = 1901.0
+offset_bottom = 1055.0
+text = "Down"
+horizontal_alignment = 1
+
 [connection signal="restarted" from="MainMenu" to="." method="_on_main_menu_restarted"]

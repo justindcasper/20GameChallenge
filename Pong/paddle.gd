@@ -7,6 +7,11 @@ extends StaticBody2D
 var screen_size
 var buffer # Boundary for the paddle
 
+enum Direction {
+    UP,
+    DOWN,
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
     screen_size = get_viewport_rect().size
@@ -17,8 +22,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-    var velocity = Vector2.ZERO
-    
     var up_input
     var down_input
     if using_w_s:
@@ -29,9 +32,18 @@ func _process(delta):
         down_input = "move_down"
         
     if Input.is_action_pressed(up_input):
-        velocity.y -= speed
+        move(Direction.UP, delta)
     if Input.is_action_pressed(down_input):
-        velocity.y += speed
-        
+        move(Direction.DOWN, delta)
+    
+
+func move(direction : Direction, delta : float):
+    var velocity = Vector2.ZERO
+    match direction:
+        Direction.UP:
+            velocity.y -= speed
+        Direction.DOWN:
+            velocity.y += speed
+    
     position += velocity * delta
     position = position.clamp(Vector2(0, buffer + top_limit), screen_size)
