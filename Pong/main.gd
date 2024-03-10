@@ -16,13 +16,20 @@ enum Direction {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+    get_tree().paused = true
     serve_ball(Direction.RIGHT)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
     #pass
-
+    
+func _unhandled_key_input(event):
+    if Input.is_action_just_pressed("pause"):
+        get_tree().paused = true
+        $MainMenu.show()
+        
+        
 # Helper for setting up what the serve should look like
 func set_serve_parameters(direction: Direction):
     var paddle_pos
@@ -50,10 +57,18 @@ func serve_ball(direction : Direction):
     ball.right_goal.connect(_on_ball_right_goal.bind())
     
 # Free the ball, wait a second, and serve
-func reset(direction : Direction):
-    $ScoreSound.play()
+func reset(direction : Direction, midgame : bool = true):
+    # Only play the score noise and wait if we're not starting a new game
+    if midgame:
+        $ScoreSound.play()
+        await get_tree().create_timer(1.0).timeout
+    else: # Need to reset the score
+        left_score = 0
+        right_score = 0
+        $ScoreLeft.text = str(left_score)
+        $ScoreRight.text = str(right_score)
+        
     ball.queue_free()
-    await get_tree().create_timer(1.0).timeout
     serve_ball(direction)
     
 # Right paddle scored
@@ -68,3 +83,6 @@ func _on_ball_right_goal():
     $ScoreLeft.text = str(left_score)
     reset(Direction.RIGHT)
     
+# When a game is restarted in the menu
+func _on_main_menu_restarted(mode):
+    reset(Direction.RIGHT, false)
