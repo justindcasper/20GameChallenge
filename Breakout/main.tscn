@@ -1,0 +1,79 @@
+[gd_scene load_steps=7 format=3 uid="uid://c3lx8ukcxprqm"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_xdei3"]
+[ext_resource type="PackedScene" uid="uid://b8cydty340bc2" path="res://paddle.tscn" id="2_or24r"]
+[ext_resource type="PackedScene" uid="uid://bxyvurvpbvttv" path="res://brickyard.tscn" id="3_3kj40"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_egww1"]
+size = Vector2(1920, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ojoc0"]
+size = Vector2(1064, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ggds2"]
+size = Vector2(1064, 16)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_xdei3")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TopWall" type="StaticBody2D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="TopWall"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 1920.0
+offset_bottom = 16.0
+grow_horizontal = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall"]
+position = Vector2(960, 8)
+shape = SubResource("RectangleShape2D_egww1")
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(16, 16)
+rotation = 1.5708
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="LeftWall"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 1064.0
+offset_bottom = 16.0
+grow_horizontal = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+position = Vector2(532, 8)
+shape = SubResource("RectangleShape2D_ojoc0")
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2(1920, 16)
+rotation = 1.5708
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="RightWall"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 1064.0
+offset_bottom = 16.0
+grow_horizontal = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+position = Vector2(532, 8)
+shape = SubResource("RectangleShape2D_ggds2")
+
+[node name="Paddle" parent="." instance=ExtResource("2_or24r")]
+
+[node name="Brickyard" parent="." instance=ExtResource("3_3kj40")]
+position = Vector2(8, 360)
+
+[connection signal="launched" from="Paddle" to="." method="_on_paddle_launched"]
+[connection signal="brick_broke" from="Brickyard" to="." method="_on_brickyard_brick_broke"]
