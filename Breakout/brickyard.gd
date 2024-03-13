@@ -41,6 +41,7 @@ const COLORS_TO_POINTS = {
 # Called when the node enters the scene tree for the first time.
 func _ready():
     lay_bricks()
+    #lay_bricks_in_row(Color.RED, 0)
     
     
 func lay_bricks_in_row(color : Color, row : int):
@@ -67,7 +68,8 @@ func break_brick(brick):
     brick_broke.emit(COLORS_TO_POINTS[brick_color])
     brick.queue_free()
     # If we drop below two children, all that's left is $SoundPlayer
-    if get_children().size() < 2:
+    # Remember that the freeing is only done at the end of the current frame
+    if get_children().size() <= 2:
         # Player won this round
         emptied.emit()
     
