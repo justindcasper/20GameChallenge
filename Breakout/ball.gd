@@ -20,7 +20,7 @@ func _physics_process(delta):
                 collision_info.get_normal())
             velocity = velocity.bounce(collision_info.get_normal())
             move_and_collide(reflect)
-            
+            # Need to tell the game that we hit something in case it's a brick
             var object_hit = collision_info.get_collider()
             collided_with.emit(object_hit)
 

@@ -1,6 +1,7 @@
 extends Node2D
 
 signal brick_broke(points : int)
+signal emptied
 
 const Brick = preload("res://brick.tscn")
 const BRICKS_PER_ROW = 16
@@ -40,10 +41,7 @@ const COLORS_TO_POINTS = {
 # Called when the node enters the scene tree for the first time.
 func _ready():
     lay_bricks()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-    pass
+    
     
 func lay_bricks_in_row(color : Color, row : int):
     # The y position is the same across the row obviously
@@ -68,3 +66,12 @@ func break_brick(brick):
     $SoundPlayer.play()
     brick_broke.emit(COLORS_TO_POINTS[brick_color])
     brick.queue_free()
+    # If we drop below two children, all that's left is $SoundPlayer
+    if get_children().size() < 2:
+        # Player won this round
+        emptied.emit()
+    
+func clear_bricks():
+    for child in get_children():
+        if child != $SoundPlayer:
+            child.queue_free()

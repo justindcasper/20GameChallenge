@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c3lx8ukcxprqm"]
+[gd_scene load_steps=8 format=3 uid="uid://c3lx8ukcxprqm"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_xdei3"]
 [ext_resource type="PackedScene" uid="uid://b8cydty340bc2" path="res://paddle.tscn" id="2_or24r"]
 [ext_resource type="PackedScene" uid="uid://bxyvurvpbvttv" path="res://brickyard.tscn" id="3_3kj40"]
+[ext_resource type="FontFile" uid="uid://bmcll6jtbleky" path="res://fonts/Xolonium-Regular.ttf" id="4_nr7lj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_egww1"]
 size = Vector2(1920, 16)
@@ -75,5 +76,34 @@ shape = SubResource("RectangleShape2D_ggds2")
 [node name="Brickyard" parent="." instance=ExtResource("3_3kj40")]
 position = Vector2(8, 360)
 
+[node name="LivesLabel" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -216.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 216.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("4_nr7lj")
+theme_override_font_sizes/font_size = 128
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 16.0
+offset_right = 200.0
+offset_bottom = 216.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("4_nr7lj")
+theme_override_font_sizes/font_size = 128
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="launched" from="Paddle" to="." method="_on_paddle_launched"]
 [connection signal="brick_broke" from="Brickyard" to="." method="_on_brickyard_brick_broke"]
+[connection signal="emptied" from="Brickyard" to="." method="_on_brickyard_emptied"]

@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxyvurvpbvttv"]
 
-[ext_resource type="Script" path="res://Brickyard.gd" id="1_ug3t0"]
+[ext_resource type="Script" path="res://brickyard.gd" id="1_i67j5"]
 [ext_resource type="AudioStream" uid="uid://bmj1vrmypju84" path="res://hit.mp3" id="2_tvwim"]
 
 [node name="Brickyard" type="Node2D"]
-script = ExtResource("1_ug3t0")
+script = ExtResource("1_i67j5")
 
 [node name="SoundPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_tvwim")
