@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://u88mxjr83658"]
+[gd_scene load_steps=7 format=3 uid="uid://u88mxjr83658"]
 
+[ext_resource type="Script" path="res://squid.gd" id="1_v3afw"]
 [ext_resource type="Texture2D" uid="uid://853ed6jd4gc6" path="res://art/squid.png" id="1_visxj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2mvoe"]
@@ -21,13 +22,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 0.67
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mg12f"]
 size = Vector2(84, 56)
 
 [node name="Squid" type="Area2D"]
+script = ExtResource("1_v3afw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_1jw7i")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bgm1gia7caexi"]
+[gd_scene load_steps=7 format=3 uid="uid://bgm1gia7caexi"]
 
 [ext_resource type="Texture2D" uid="uid://df3ehpdkmxrj5" path="res://art/octopus.png" id="1_2hkn6"]
+[ext_resource type="Script" path="res://octopus.gd" id="1_pks72"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aw6tp"]
 atlas = ExtResource("1_2hkn6")
@@ -21,17 +22,18 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 1.0
+"speed": 0.67
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_thh7s"]
 size = Vector2(84, 56)
 
 [node name="Octopus" type="Area2D"]
+script = ExtResource("1_pks72")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2pam7")
-frame_progress = 0.31707
+frame_progress = 0.0865134
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

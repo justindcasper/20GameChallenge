@@ -17,6 +17,7 @@ var advance_step = ADVANCE_STEP
 func _ready():
     screen_size = get_viewport_rect().size
     generate_invasion()
+    get_tree().call_group("aliens", "play")
     $AdvanceTimer.start()
 
 
@@ -33,6 +34,7 @@ func generate_row(row : int, alien_prefab : PackedScene):
         var alien = alien_prefab.instantiate()
         alien.position = Vector2(x_pos, y_pos)
         add_child(alien)
+        alien.add_to_group("aliens")
         x_pos += ALIEN_WIDTH + MARGIN
         
     return x_pos

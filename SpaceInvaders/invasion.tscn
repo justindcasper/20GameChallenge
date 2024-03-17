@@ -5,7 +5,7 @@
 [node name="Invasion" type="Node2D"]
 script = ExtResource("1_wanym")
 
-[node name="AdvanceTimer" type="Timer" parent="."]
+[node name="AdvanceTimer" type="Timer" parent="." groups=["aliens"]]
 wait_time = 1.5
 
 [connection signal="timeout" from="AdvanceTimer" to="." method="_on_advance_timer_timeout"]
