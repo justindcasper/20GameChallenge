@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpoue4b1a70v8"]
+
+[ext_resource type="PackedScene" uid="uid://dmmbfj8uj7xot" path="res://cannon.tscn" id="1_vvhxs"]
+
+[node name="Level" type="Node2D"]
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Cannon" parent="." instance=ExtResource("1_vvhxs")]
+position = Vector2(847, 824)
