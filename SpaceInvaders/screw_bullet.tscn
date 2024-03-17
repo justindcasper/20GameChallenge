@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bk5qo0o0ytnuw"]
+
+[ext_resource type="Script" path="res://screw_bullet.gd" id="1_mq57w"]
+[ext_resource type="Texture2D" uid="uid://6rbhhtfk8ir0" path="res://art/screwbullet.png" id="1_w1xab"]
+[ext_resource type="PackedScene" uid="uid://dvtpm7hj2qlyt" path="res://projectile.tscn" id="3_mfs78"]
+
+[node name="ScrewBullet" type="Node2D"]
+position = Vector2(32, 21)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_mq57w")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_w1xab")
+
+[node name="SpinTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="Projectile" parent="." instance=ExtResource("3_mfs78")]
+
+[connection signal="timeout" from="SpinTimer" to="." method="_on_spin_timer_timeout"]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://b15lpyh254yuy"]
+
+[ext_resource type="Texture2D" uid="uid://vtmg742kijef" path="res://art/laser.png" id="1_f1wic"]
+[ext_resource type="Script" path="res://laser.gd" id="1_h3mjs"]
+[ext_resource type="PackedScene" uid="uid://dvtpm7hj2qlyt" path="res://projectile.tscn" id="3_as8fx"]
+
+[node name="Laser" type="Node2D"]
+position = Vector2(192, 128)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_h3mjs")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_f1wic")
+
+[node name="Projectile" parent="." instance=ExtResource("3_as8fx")]
+
+[connection signal="area_entered" from="Projectile" to="." method="_on_projectile_area_entered"]
+[connection signal="area_exited" from="Projectile" to="." method="_on_projectile_area_exited"]
+[connection signal="out_of_bounds" from="Projectile" to="." method="_on_projectile_out_of_bounds"]

@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://df3ehpdkmxrj5" path="res://art/octopus.png" id="1_2hkn6"]
 [ext_resource type="Script" path="res://octopus.gd" id="1_pks72"]
+[ext_resource type="PackedScene" uid="uid://bxtc2fdu2urwp" path="res://alien.tscn" id="3_0bdkl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aw6tp"]
 atlas = ExtResource("1_2hkn6")
@@ -25,17 +26,15 @@ animations = [{
 "speed": 0.67
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_thh7s"]
-size = Vector2(84, 56)
-
-[node name="Octopus" type="Area2D"]
+[node name="Octopus" type="Node2D"]
 script = ExtResource("1_pks72")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2pam7")
-frame_progress = 0.0865134
+frame_progress = 0.330002
 centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Alien" parent="." instance=ExtResource("3_0bdkl")]
 position = Vector2(42, 28)
-shape = SubResource("RectangleShape2D_thh7s")
+
+[connection signal="area_entered" from="Alien" to="." method="_on_alien_area_entered"]

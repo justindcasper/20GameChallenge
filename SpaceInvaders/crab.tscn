@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dtn2mldkmpcqd" path="res://art/crab.png" id="1_mgep2"]
 [ext_resource type="Script" path="res://crab.gd" id="1_otmxj"]
+[ext_resource type="PackedScene" uid="uid://bxtc2fdu2urwp" path="res://alien.tscn" id="3_bdwah"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rrq6m"]
 atlas = ExtResource("1_mgep2")
@@ -25,16 +26,12 @@ animations = [{
 "speed": 0.67
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_468ls"]
-size = Vector2(84, 56)
-
-[node name="Crab" type="Area2D"]
+[node name="Crab" type="Node2D"]
 script = ExtResource("1_otmxj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_0iph2")
 centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Alien" parent="." instance=ExtResource("3_bdwah")]
 position = Vector2(42, 28)
-shape = SubResource("RectangleShape2D_468ls")

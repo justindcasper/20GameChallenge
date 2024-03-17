@@ -50,20 +50,27 @@ func generate_invasion():
     invasion_width = width_values.max()
     
 func advance():
+    # Should we drop down a level?
     var drop = false
+    # Are we moving right?
     if advance_step > 0:
+        # Are we by the right edge of the screen?
         if position.x + invasion_width >= screen_size.x - MARGIN:
             drop = true
+    # Are we moving left?
     else:
+        # Are we by the left edge of the screen?
         if position.x <= MARGIN:
             drop = true
             
-    if drop:
+    if drop: # By a screen edge, so drop and reverse directions
         position.y += ADVANCE_STEP
         advance_step *= -1
-    else:
+    else: # Just move normally
         position.x += advance_step
 
 
 func _on_advance_timer_timeout():
     advance()
+    
+

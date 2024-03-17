@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://squid.gd" id="1_v3afw"]
 [ext_resource type="Texture2D" uid="uid://853ed6jd4gc6" path="res://art/squid.png" id="1_visxj"]
+[ext_resource type="PackedScene" uid="uid://bxtc2fdu2urwp" path="res://alien.tscn" id="3_gdcet"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2mvoe"]
 atlas = ExtResource("1_visxj")
@@ -25,16 +26,12 @@ animations = [{
 "speed": 0.67
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mg12f"]
-size = Vector2(84, 56)
-
-[node name="Squid" type="Area2D"]
+[node name="Squid" type="Node2D"]
 script = ExtResource("1_v3afw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_1jw7i")
 centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Alien" parent="." instance=ExtResource("3_gdcet")]
 position = Vector2(42, 28)
-shape = SubResource("RectangleShape2D_mg12f")
