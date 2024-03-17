@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://x3qa3d4xiptq"]
+
+[ext_resource type="Script" path="res://invasion.gd" id="1_wanym"]
+
+[node name="Invasion" type="Node2D"]
+script = ExtResource("1_wanym")
+
+[node name="AdvanceTimer" type="Timer" parent="."]
+wait_time = 1.5
+
+[connection signal="timeout" from="AdvanceTimer" to="." method="_on_advance_timer_timeout"]

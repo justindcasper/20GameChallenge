@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://bge21n67cqerx"]
+
+[ext_resource type="Texture2D" uid="uid://dtn2mldkmpcqd" path="res://art/crab.png" id="1_mgep2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrq6m"]
+atlas = ExtResource("1_mgep2")
+region = Rect2(0, 0, 84, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwktf"]
+atlas = ExtResource("1_mgep2")
+region = Rect2(84, 0, 84, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0iph2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rrq6m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwktf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_468ls"]
+size = Vector2(84, 56)
+
+[node name="Crab" type="Area2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0iph2")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(42, 28)
+shape = SubResource("RectangleShape2D_468ls")

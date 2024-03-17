@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpoue4b1a70v8"]
+[gd_scene load_steps=3 format=3 uid="uid://bpoue4b1a70v8"]
 
 [ext_resource type="PackedScene" uid="uid://dmmbfj8uj7xot" path="res://cannon.tscn" id="1_vvhxs"]
+[ext_resource type="PackedScene" uid="uid://x3qa3d4xiptq" path="res://invasion.tscn" id="2_2xrd8"]
 
 [node name="Level" type="Node2D"]
 
@@ -16,3 +17,6 @@ color = Color(0, 0, 0, 1)
 
 [node name="Cannon" parent="." instance=ExtResource("1_vvhxs")]
 position = Vector2(847, 824)
+
+[node name="Invasion" parent="." instance=ExtResource("2_2xrd8")]
+position = Vector2(0, 160)
