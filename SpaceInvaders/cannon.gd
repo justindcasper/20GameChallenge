@@ -44,6 +44,4 @@ func move(direction : Vector2, delta : float):
     
     
 func destroy():
-    hide()
-    await get_tree().create_timer(2.0).timeout
-    show()
+    queue_free()

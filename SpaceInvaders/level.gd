@@ -1,16 +1,25 @@
 extends Node2D
 
-@export var projectile_speed = 500
+const Cannon = preload("res://cannon.tscn")
+const cannon_location = Vector2(840, 820)
 
+var cannon
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    pass # Replace with function body.
+    spawn_cannon()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
     pass
+    
+    
+func spawn_cannon():
+    cannon = Cannon.instantiate()
+    cannon.position = cannon_location
+    add_child(cannon)
+    cannon.fired.connect(_on_cannon_fired.bind())
 
 
 func _on_cannon_fired(laser, location):
@@ -36,5 +45,7 @@ func _on_invasion_fired(projectile, location):
     
     
 func _on_alien_projectile_hit(area : Area2D):
-    if area == $Cannon:
-        $Cannon.destroy()
+    if area == cannon:
+        cannon.destroy()
+        spawn_cannon()
+        
