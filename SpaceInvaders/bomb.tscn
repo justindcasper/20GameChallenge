@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmpykj76ckclw"]
+
+[ext_resource type="Texture2D" uid="uid://cfcctpdgnetmu" path="res://art/bomb.png" id="1_btpt8"]
+[ext_resource type="Script" path="res://bomb.gd" id="1_x88xl"]
+[ext_resource type="PackedScene" uid="uid://dvtpm7hj2qlyt" path="res://projectile.tscn" id="2_uhp1v"]
+
+[node name="Bomb" type="Node2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_x88xl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_btpt8")
+
+[node name="SpinTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Projectile" parent="." instance=ExtResource("2_uhp1v")]
+
+[connection signal="timeout" from="SpinTimer" to="." method="_on_spin_timer_timeout"]
+[connection signal="area_entered" from="Projectile" to="." method="_on_projectile_area_entered"]
+[connection signal="out_of_bounds" from="Projectile" to="." method="_on_projectile_out_of_bounds"]

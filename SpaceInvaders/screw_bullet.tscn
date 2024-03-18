@@ -14,9 +14,10 @@ metadata/_edit_group_ = true
 texture = ExtResource("1_w1xab")
 
 [node name="SpinTimer" type="Timer" parent="."]
-wait_time = 0.5
 autostart = true
 
 [node name="Projectile" parent="." instance=ExtResource("3_mfs78")]
 
 [connection signal="timeout" from="SpinTimer" to="." method="_on_spin_timer_timeout"]
+[connection signal="area_entered" from="Projectile" to="." method="_on_projectile_area_entered"]
+[connection signal="out_of_bounds" from="Projectile" to="." method="_on_projectile_out_of_bounds"]

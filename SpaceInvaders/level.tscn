@@ -24,3 +24,4 @@ position = Vector2(847, 824)
 position = Vector2(0, 160)
 
 [connection signal="fired" from="Cannon" to="." method="_on_cannon_fired"]
+[connection signal="fired" from="Invasion" to="." method="_on_invasion_fired"]

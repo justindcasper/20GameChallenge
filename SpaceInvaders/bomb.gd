@@ -14,7 +14,7 @@ func _process(delta):
 
 
 func _on_spin_timer_timeout():
-    $Sprite2D.flip_h = not $Sprite2D.flip_h
+    $Sprite2D.flip_v = not $Sprite2D.flip_v
 
 
 func _on_projectile_out_of_bounds():

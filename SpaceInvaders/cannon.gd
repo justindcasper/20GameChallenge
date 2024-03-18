@@ -41,3 +41,9 @@ func move(direction : Vector2, delta : float):
     position += velocity * delta
     # Clamp based on the collision polygon's bottom vertices
     position.x = clamp(position.x, -bottom_left_vertex_x, screen_size.x - bottom_right_vertex_x)
+    
+    
+func destroy():
+    hide()
+    await get_tree().create_timer(2.0).timeout
+    show()

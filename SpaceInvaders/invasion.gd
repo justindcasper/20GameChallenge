@@ -1,13 +1,19 @@
 extends Node2D
 
+signal fired(projectile, location)
+
 const Octopus = preload("res://octopus.tscn")
 const Crab = preload("res://crab.tscn")
 const Squid = preload("res://squid.tscn")
+const Screw_Bullet = preload("res://screw_bullet.tscn")
+const Bomb = preload("res://bomb.tscn")
+
 const ALIENS_PER_ROW = 11
 const ROW_HEIGHT = 80
 const ALIEN_WIDTH = 84
 const MARGIN = 32
 const ADVANCE_STEP = 58
+const PROJECTILES = [Screw_Bullet, Bomb]
 
 var screen_size
 var invasion_width
@@ -19,6 +25,8 @@ func _ready():
     generate_invasion()
     get_tree().call_group("aliens", "play")
     $AdvanceTimer.start()
+    $FireTimer.wait_time = randf_range(0.5, 4.0)
+    $FireTimer.start()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -69,8 +77,24 @@ func advance():
     else: # Just move normally
         position.x += advance_step
 
+func choose_random_alien():
+    var random_child = get_children().pick_random()
+    if random_child is Timer:
+        return null
+    else:
+        return random_child
+        
+func drop_projectile():
+    var alien = choose_random_alien()
+    if alien != null:
+        var center_location = alien.get_node("Alien").position
+        var location = alien.position + center_location + position
+        fired.emit(PROJECTILES.pick_random(), location)
 
 func _on_advance_timer_timeout():
     advance()
     
 
+func _on_fire_timer_timeout():
+    $FireTimer.wait_time = randf_range(0.2, 2.0)
+    drop_projectile()
