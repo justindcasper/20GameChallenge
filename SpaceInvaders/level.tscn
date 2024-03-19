@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bpoue4b1a70v8"]
+[gd_scene load_steps=4 format=3 uid="uid://bpoue4b1a70v8"]
 
 [ext_resource type="Script" path="res://level.gd" id="1_bihst"]
 [ext_resource type="PackedScene" uid="uid://x3qa3d4xiptq" path="res://invasion.tscn" id="2_2xrd8"]
+[ext_resource type="FontFile" uid="uid://b8rxppcgeproc" path="res://fonts/CosmicAlien-V4Ax.ttf" id="3_dlqg1"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_bihst")
@@ -19,4 +20,27 @@ color = Color(0, 0, 0, 1)
 [node name="Invasion" parent="." instance=ExtResource("2_2xrd8")]
 position = Vector2(0, 160)
 
+[node name="ShipTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("3_dlqg1")
+theme_override_font_sizes/font_size = 32
+
+[node name="LivesLabel" type="RichTextLabel" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1572.0
+offset_top = 2.0
+offset_right = 1918.0
+offset_bottom = 50.0
+grow_horizontal = 0
+theme_override_fonts/normal_font = ExtResource("3_dlqg1")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+
 [connection signal="fired" from="Invasion" to="." method="_on_invasion_fired"]
+[connection signal="timeout" from="ShipTimer" to="." method="_on_ship_timer_timeout"]

@@ -1,5 +1,7 @@
 extends Node2D
 
+const POINTS = 10
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,3 +15,9 @@ func _process(delta):
     
 func play():
     $AnimatedSprite2D.play()
+    
+func speed_up(percentage : float):
+    $AnimatedSprite2D.speed_scale *= 1.0 + percentage
+    
+func get_value():
+    return POINTS

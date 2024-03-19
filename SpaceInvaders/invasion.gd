@@ -14,6 +14,7 @@ const ALIEN_WIDTH = 84
 const MARGIN = 32
 const ADVANCE_STEP = 58
 const PROJECTILES = [Screw_Bullet, Bomb]
+const SPEED_UP_PERCENTAGE = 0.03
 
 var screen_size
 var invasion_width
@@ -90,6 +91,14 @@ func drop_projectile():
         var center_location = alien.get_node("Alien").position
         var location = alien.position + center_location + position
         fired.emit(PROJECTILES.pick_random(), location)
+        
+func kill_alien(alien : Node2D):
+    var points = alien.get_value()
+    alien.queue_free()
+    # Go faster
+    $AdvanceTimer.wait_time *= 1 - SPEED_UP_PERCENTAGE
+    get_tree().call_group("aliens", "speed_up", SPEED_UP_PERCENTAGE)
+    return points
 
 func _on_advance_timer_timeout():
     advance()
