@@ -21,6 +21,12 @@ var ship
 var score = 0
 @export var lives = 3
 
+# Sort of state machine with two booleans to determine which way the invasion
+# should be moving, and trying to conditionally access the area being entered,
+# because we're likely getting several signals
+var left_area_initially_entered = true
+var right_area_initially_entered = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
     $ScoreLabel.text = SCORE_FMT % score
@@ -67,6 +73,7 @@ func game_over():
     $GameOver.show()
     await get_tree().create_timer(2.0).timeout
     game_overed.emit()
+    
 
 func _on_cannon_fired(laser, location):
     var spawned_laser = laser.instantiate()
@@ -131,4 +138,22 @@ func _on_invasion_alien_killed(points : int):
     if aliens.size() == 0:
         invasion.queue_free()
         invasion_count += 1
+        left_area_initially_entered = true
+        right_area_initially_entered = false
         spawn_invasion()
+
+
+# These signals deal with the double boolean state machine to change the
+# direction of the invasion
+func _on_left_boundary_area_area_entered(area):
+    if not left_area_initially_entered:
+        left_area_initially_entered = true
+        invasion.reverse()
+        right_area_initially_entered = false
+
+
+func _on_right_boundary_area_area_entered(area):
+    if not right_area_initially_entered:
+        right_area_initially_entered = true
+        invasion.reverse()
+        left_area_initially_entered = false

@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://bpoue4b1a70v8"]
+[gd_scene load_steps=5 format=3 uid="uid://bpoue4b1a70v8"]
 
 [ext_resource type="Script" path="res://level.gd" id="1_bihst"]
 [ext_resource type="FontFile" uid="uid://b8rxppcgeproc" path="res://fonts/CosmicAlien-V4Ax.ttf" id="3_dlqg1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uin7s"]
 size = Vector2(1920, 300)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32a7p"]
+size = Vector2(40, 600)
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_bihst")
@@ -47,6 +50,20 @@ position = Vector2(960, 930)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DefeatArea"]
 shape = SubResource("RectangleShape2D_uin7s")
 
+[node name="LeftBoundaryArea" type="Area2D" parent="."]
+position = Vector2(0, 160)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBoundaryArea"]
+position = Vector2(20, 300)
+shape = SubResource("RectangleShape2D_32a7p")
+
+[node name="RightBoundaryArea" type="Area2D" parent="LeftBoundaryArea"]
+position = Vector2(0, 160)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBoundaryArea/RightBoundaryArea"]
+position = Vector2(1900, 136)
+shape = SubResource("RectangleShape2D_32a7p")
+
 [node name="GameOver" type="Label" parent="."]
 visible = false
 offset_left = 744.0
@@ -60,3 +77,5 @@ horizontal_alignment = 1
 
 [connection signal="timeout" from="ShipTimer" to="." method="_on_ship_timer_timeout"]
 [connection signal="area_entered" from="DefeatArea" to="." method="_on_defeat_area_area_entered"]
+[connection signal="area_entered" from="LeftBoundaryArea" to="." method="_on_left_boundary_area_area_entered"]
+[connection signal="area_entered" from="LeftBoundaryArea/RightBoundaryArea" to="." method="_on_right_boundary_area_area_entered"]

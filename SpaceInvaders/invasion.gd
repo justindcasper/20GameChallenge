@@ -17,13 +17,11 @@ const ADVANCE_STEP = 58
 const PROJECTILES = [Screw_Bullet, Bomb]
 const SPEED_UP_PERCENTAGE = 0.03
 
-var screen_size
-var invasion_width
 var advance_step = ADVANCE_STEP
+var should_drop = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    screen_size = get_viewport_rect().size
     generate_invasion()
     get_tree().call_group("aliens", "play")
     $AdvanceTimer.start()
@@ -50,34 +48,23 @@ func generate_row(row : int, alien_prefab : PackedScene):
     return x_pos
     
 func generate_invasion():
-    var width_values = [
-        generate_row(0, Squid),
-        generate_row(1, Crab),
-        generate_row(2, Crab),
-        generate_row(3, Octopus),
-        generate_row(4, Octopus),
-    ]
-    invasion_width = width_values.max()
+    generate_row(0, Squid)
+    generate_row(1, Crab)
+    generate_row(2, Crab)
+    generate_row(3, Octopus)
+    generate_row(4, Octopus)
     
 func advance():
-    # Should we drop down a level?
-    var drop = false
-    # Are we moving right?
-    if advance_step > 0:
-        # Are we by the right edge of the screen?
-        if position.x + invasion_width >= screen_size.x - MARGIN:
-            drop = true
-    # Are we moving left?
-    else:
-        # Are we by the left edge of the screen?
-        if position.x <= MARGIN:
-            drop = true
-            
-    if drop: # By a screen edge, so drop and reverse directions
+    if should_drop: # By a screen edge, so drop and reverse directions
         position.y += ADVANCE_STEP
-        advance_step *= -1
+        should_drop = false
     else: # Just move normally
         position.x += advance_step
+        
+# Called externally by the level
+func reverse():
+    advance_step *= -1
+    should_drop = true
 
 func choose_random_alien():
     var random_child = get_children().pick_random()
@@ -92,6 +79,7 @@ func drop_projectile():
         var center_location = alien.get_node("Alien").position
         var location = alien.position + center_location + position
         fired.emit(PROJECTILES.pick_random(), location)
+        
         
 func kill_alien(alien : Node2D):
     var points = alien.get_value()
