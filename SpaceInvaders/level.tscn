@@ -1,8 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://bpoue4b1a70v8"]
 
 [ext_resource type="Script" path="res://level.gd" id="1_bihst"]
-[ext_resource type="PackedScene" uid="uid://x3qa3d4xiptq" path="res://invasion.tscn" id="2_2xrd8"]
 [ext_resource type="FontFile" uid="uid://b8rxppcgeproc" path="res://fonts/CosmicAlien-V4Ax.ttf" id="3_dlqg1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uin7s"]
+size = Vector2(1920, 300)
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_bihst")
@@ -16,9 +18,6 @@ offset_bottom = 1080.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
-
-[node name="Invasion" parent="." instance=ExtResource("2_2xrd8")]
-position = Vector2(0, 160)
 
 [node name="ShipTimer" type="Timer" parent="."]
 one_shot = true
@@ -42,5 +41,22 @@ theme_override_fonts/normal_font = ExtResource("3_dlqg1")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 
-[connection signal="fired" from="Invasion" to="." method="_on_invasion_fired"]
+[node name="DefeatArea" type="Area2D" parent="."]
+position = Vector2(960, 930)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DefeatArea"]
+shape = SubResource("RectangleShape2D_uin7s")
+
+[node name="GameOver" type="Label" parent="."]
+visible = false
+offset_left = 744.0
+offset_top = 456.0
+offset_right = 1176.0
+offset_bottom = 514.0
+theme_override_fonts/font = ExtResource("3_dlqg1")
+theme_override_font_sizes/font_size = 64
+text = "GAME OVER"
+horizontal_alignment = 1
+
 [connection signal="timeout" from="ShipTimer" to="." method="_on_ship_timer_timeout"]
+[connection signal="area_entered" from="DefeatArea" to="." method="_on_defeat_area_area_entered"]

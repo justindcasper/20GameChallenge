@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgr2a0eku3qyn"]
+
+[ext_resource type="FontFile" uid="uid://b8rxppcgeproc" path="res://fonts/CosmicAlien-V4Ax.ttf" id="1_8y3f8"]
+[ext_resource type="Script" path="res://startup_screen.gd" id="1_38rmt"]
+
+[node name="StartupScreen" type="Node2D"]
+script = ExtResource("1_38rmt")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TitleLabel" type="Label" parent="."]
+offset_left = 600.0
+offset_top = 320.0
+offset_right = 1320.0
+offset_bottom = 384.0
+theme_override_fonts/font = ExtResource("1_8y3f8")
+theme_override_font_sizes/font_size = 64
+text = "Space Invaders!"
+
+[node name="PointsLabel" type="RichTextLabel" parent="."]
+offset_left = 600.0
+offset_top = 400.0
+offset_right = 1320.0
+offset_bottom = 720.0
+theme_override_fonts/normal_font = ExtResource("1_8y3f8")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[img]res://art/octopus.png[/img] =  10 POINTS
+[img]res://art/crab.png[/img] =  20 POINTS
+[img]res://art/squid.png[/img] =  30 POINTS
+[img]res://art/ship.png[/img] =  ?????"
+
+[node name="PressKeyLabel" type="Label" parent="."]
+offset_left = 640.0
+offset_top = 800.0
+offset_right = 1240.0
+offset_bottom = 832.0
+theme_override_fonts/font = ExtResource("1_8y3f8")
+theme_override_font_sizes/font_size = 32
+text = "Press any key to play..."

@@ -1,6 +1,7 @@
 extends Node2D
 
 signal fired(projectile, location)
+signal alien_killed(points : int)
 
 const Octopus = preload("res://octopus.tscn")
 const Crab = preload("res://crab.tscn")
@@ -98,7 +99,8 @@ func kill_alien(alien : Node2D):
     # Go faster
     $AdvanceTimer.wait_time *= 1 - SPEED_UP_PERCENTAGE
     get_tree().call_group("aliens", "speed_up", SPEED_UP_PERCENTAGE)
-    return points
+    await get_tree().process_frame
+    alien_killed.emit(points)
 
 func _on_advance_timer_timeout():
     advance()

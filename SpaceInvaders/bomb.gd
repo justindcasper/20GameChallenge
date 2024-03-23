@@ -1,6 +1,6 @@
 extends Node2D
 
-signal hit(area : Area2D)
+signal hit(area : Area2D, me : Node2D)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,5 +24,4 @@ func _on_projectile_out_of_bounds():
 func _on_projectile_area_entered(area):
     var aliens = get_tree().get_nodes_in_group("aliens")
     if area.get_parent() not in aliens:
-        queue_free()
-        hit.emit(area)
+        hit.emit(area, self)
