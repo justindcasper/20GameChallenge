@@ -55,6 +55,7 @@ func spawn_cannon():
     cannon.position = CANNON_LOCATION
     call_deferred("add_child", cannon)
     cannon.fired.connect(_on_cannon_fired.bind())
+    cannon.set_can_fire(true)
     
 func spawn_ship():
     ship = Ship.instantiate()
@@ -83,6 +84,8 @@ func _on_cannon_fired(laser, location):
 
 
 func _on_laser_hit(area : Area2D):
+    if invasion == null:
+        return
     var aliens = invasion.get_children()
     var area_parent = area.get_parent()
     if area_parent in aliens:
@@ -140,7 +143,10 @@ func _on_invasion_alien_killed(points : int):
         invasion_count += 1
         left_area_initially_entered = true
         right_area_initially_entered = false
+        cannon.set_can_fire(false)
+        await get_tree().create_timer(1.5).timeout
         spawn_invasion()
+        cannon.set_can_fire(true)
 
 
 # These signals deal with the double boolean state machine to change the

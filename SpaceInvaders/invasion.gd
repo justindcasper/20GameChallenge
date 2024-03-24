@@ -17,8 +17,12 @@ const ADVANCE_STEP = 58
 const PROJECTILES = [Screw_Bullet, Bomb]
 const SPEED_UP_PERCENTAGE = 0.03
 
+const INITIAL_NOTE_TIMESTAMP = 0.0
+const FINAL_NOTE_TIMESTAMP = 3.0
+
 var advance_step = ADVANCE_STEP
 var should_drop = false
+var seek_timestamp = INITIAL_NOTE_TIMESTAMP
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -54,6 +58,13 @@ func generate_invasion():
     generate_row(3, Octopus)
     generate_row(4, Octopus)
     
+func increment_seek_timestamp():
+    if seek_timestamp == FINAL_NOTE_TIMESTAMP:
+        seek_timestamp = INITIAL_NOTE_TIMESTAMP
+    else:
+        seek_timestamp += 1.0
+        
+    
 func advance():
     if should_drop: # By a screen edge, so drop and reverse directions
         position.y += ADVANCE_STEP
@@ -76,9 +87,11 @@ func choose_random_alien():
 func drop_projectile():
     var alien = choose_random_alien()
     if alien != null:
-        var center_location = alien.get_node("Alien").position
-        var location = alien.position + center_location + position
-        fired.emit(PROJECTILES.pick_random(), location)
+        var _alien = alien.get_node("Alien")
+        if _alien != null:
+            var center_location = alien.get_node("Alien").position
+            var location = alien.position + center_location + position
+            fired.emit(PROJECTILES.pick_random(), location)
         
         
 func kill_alien(alien : Node2D):
@@ -91,9 +104,16 @@ func kill_alien(alien : Node2D):
     alien_killed.emit(points)
 
 func _on_advance_timer_timeout():
+    $Music.play(seek_timestamp)
+    increment_seek_timestamp()
     advance()
+    $MusicTimer.start()
     
 
 func _on_fire_timer_timeout():
     $FireTimer.wait_time = randf_range(0.2, 2.0)
     drop_projectile()
+
+
+func _on_music_timer_timeout():
+    $Music.stop()

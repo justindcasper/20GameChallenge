@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://x3qa3d4xiptq"]
+[gd_scene load_steps=3 format=3 uid="uid://x3qa3d4xiptq"]
 
 [ext_resource type="Script" path="res://invasion.gd" id="1_wanym"]
+[ext_resource type="AudioStream" uid="uid://dtjyep55w28bv" path="res://sounds/invasion.mp3" id="2_sxswx"]
 
 [node name="Invasion" type="Node2D"]
 script = ExtResource("1_wanym")
@@ -10,5 +11,12 @@ wait_time = 1.5
 
 [node name="FireTimer" type="Timer" parent="."]
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_sxswx")
+
+[node name="MusicTimer" type="Timer" parent="."]
+wait_time = 0.9
+
 [connection signal="timeout" from="AdvanceTimer" to="." method="_on_advance_timer_timeout"]
 [connection signal="timeout" from="FireTimer" to="." method="_on_fire_timer_timeout"]
+[connection signal="timeout" from="MusicTimer" to="." method="_on_music_timer_timeout"]

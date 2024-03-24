@@ -11,6 +11,8 @@ var right_cannon_edge
 var bottom_right_vertex_x
 var bottom_left_vertex_x
 
+var can_fire = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
     screen_size = get_viewport_rect().size
@@ -45,3 +47,7 @@ func move(direction : Vector2, delta : float):
     
 func destroy():
     queue_free()
+    
+    
+func set_can_fire(can : bool):
+    can_fire = can
