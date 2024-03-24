@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b15lpyh254yuy"]
+[gd_scene load_steps=5 format=3 uid="uid://b15lpyh254yuy"]
 
 [ext_resource type="Texture2D" uid="uid://vtmg742kijef" path="res://art/laser.png" id="1_f1wic"]
 [ext_resource type="Script" path="res://laser.gd" id="1_h3mjs"]
 [ext_resource type="PackedScene" uid="uid://dvtpm7hj2qlyt" path="res://projectile.tscn" id="3_as8fx"]
+[ext_resource type="AudioStream" uid="uid://huqyph00p7xn" path="res://sounds/laser.mp3" id="4_jyi8a"]
 
 [node name="Laser" type="Node2D"]
 position = Vector2(192, 128)
@@ -14,6 +15,10 @@ metadata/_edit_group_ = true
 texture = ExtResource("1_f1wic")
 
 [node name="Projectile" parent="." instance=ExtResource("3_as8fx")]
+
+[node name="FireAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_jyi8a")
+volume_db = -10.0
 
 [connection signal="area_entered" from="Projectile" to="." method="_on_projectile_area_entered"]
 [connection signal="area_exited" from="Projectile" to="." method="_on_projectile_area_exited"]

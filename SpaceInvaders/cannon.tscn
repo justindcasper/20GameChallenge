@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dmmbfj8uj7xot"]
+[gd_scene load_steps=4 format=3 uid="uid://dmmbfj8uj7xot"]
 
 [ext_resource type="Texture2D" uid="uid://cpc0acx35jvh7" path="res://art/cannon.png" id="1_86152"]
 [ext_resource type="Script" path="res://cannon.gd" id="1_vyuim"]
+[ext_resource type="AudioStream" uid="uid://btbhnfk6weiii" path="res://sounds/explosion.mp3" id="3_kbqmb"]
 
 [node name="Cannon" type="Area2D"]
 position = Vector2(960, 540)
@@ -14,5 +15,8 @@ centered = false
 
 [node name="CollisionShape" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(112, 112, 128, 112, 128, 128, 144, 128, 144, 176, 208, 176, 208, 192, 224, 192, 224, 256, 16, 256, 16, 192, 32, 192, 32, 176, 96, 176, 96, 128, 112, 128)
+
+[node name="ExplosionAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_kbqmb")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

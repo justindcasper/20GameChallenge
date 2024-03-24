@@ -1,6 +1,7 @@
 extends Area2D
 
 signal fired(laser : PackedScene, location : Vector2)
+signal exploded
 
 const Laser = preload("res://laser.tscn")
 
@@ -12,6 +13,7 @@ var bottom_right_vertex_x
 var bottom_left_vertex_x
 
 var can_fire = false
+var can_move = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,6 +25,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+    if not can_move:
+        return
+        
     if Input.is_action_pressed("move_left"):
         move(Vector2.LEFT, delta)
     if Input.is_action_pressed("move_right"):
@@ -30,6 +35,9 @@ func _process(delta):
         
         
 func _input(event):
+    if not can_fire:
+        return
+        
     if event is InputEventKey:
         if Input.is_action_just_pressed("fire"):
             var cannon_center = (left_cannon_edge + right_cannon_edge) / 2
@@ -46,6 +54,11 @@ func move(direction : Vector2, delta : float):
     
     
 func destroy():
+    can_move = false
+    can_fire = false
+    $ExplosionAudio.play()
+    await $ExplosionAudio.finished
+    exploded.emit()
     queue_free()
     
     

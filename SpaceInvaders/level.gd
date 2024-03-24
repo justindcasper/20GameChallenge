@@ -86,13 +86,16 @@ func _on_cannon_fired(laser, location):
 func _on_laser_hit(area : Area2D):
     if invasion == null:
         return
+        
     var aliens = invasion.get_children()
     var area_parent = area.get_parent()
     if area_parent in aliens:
+        $LaserAudio.play()
         invasion.kill_alien(area_parent)
         $ScoreLabel.text = SCORE_FMT % score
     elif area == ship:
         score += ship.calculate_points()
+        $LaserAudio.play()
         $ScoreLabel.text = SCORE_FMT % score
         ship.destroy()
         reset_ship_timer()
@@ -110,15 +113,18 @@ func _on_alien_projectile_hit(area : Area2D, projectile : Node2D):
         projectile.queue_free()
         
     if area == cannon:
+        invasion.process_mode = Node.PROCESS_MODE_DISABLED
         cannon.destroy()
+        await cannon.exploded
         lives -= 1
         update_lives_label()
+        invasion.process_mode = Node.PROCESS_MODE_ALWAYS
         if lives > 0:
             spawn_cannon()
         else:
             game_over()
+            
 
-        
 
 func _on_ship_timer_timeout():
     spawn_ship()

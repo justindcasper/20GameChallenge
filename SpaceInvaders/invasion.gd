@@ -22,6 +22,7 @@ const FINAL_NOTE_TIMESTAMP = 3.0
 
 var advance_step = ADVANCE_STEP
 var should_drop = false
+# Used for playing a single note of the music
 var seek_timestamp = INITIAL_NOTE_TIMESTAMP
 
 # Called when the node enters the scene tree for the first time.
@@ -58,6 +59,8 @@ func generate_invasion():
     generate_row(3, Octopus)
     generate_row(4, Octopus)
     
+# Utility for looping through the notes in the music (this works because each
+# note is a single second long)
 func increment_seek_timestamp():
     if seek_timestamp == FINAL_NOTE_TIMESTAMP:
         seek_timestamp = INITIAL_NOTE_TIMESTAMP
@@ -79,7 +82,7 @@ func reverse():
 
 func choose_random_alien():
     var random_child = get_children().pick_random()
-    if random_child is Timer:
+    if random_child is Timer or random_child is AudioStreamPlayer:
         return null
     else:
         return random_child
@@ -104,9 +107,12 @@ func kill_alien(alien : Node2D):
     alien_killed.emit(points)
 
 func _on_advance_timer_timeout():
+    # Play a single note
     $Music.play(seek_timestamp)
     increment_seek_timestamp()
+    # Move forward on screen
     advance()
+    # Run the timer so we can stop the note before the next one
     $MusicTimer.start()
     
 
