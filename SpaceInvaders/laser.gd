@@ -15,7 +15,7 @@ func _process(delta):
     position += velocity * delta
 
 
-func _on_projectile_area_exited(area):
+func _on_projectile_area_exited(_area):
     # We have to leave the cannon fully
     fully_fired = true
 

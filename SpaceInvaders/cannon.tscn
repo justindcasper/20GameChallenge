@@ -1,16 +1,38 @@
-[gd_scene load_steps=4 format=3 uid="uid://dmmbfj8uj7xot"]
+[gd_scene load_steps=7 format=3 uid="uid://dmmbfj8uj7xot"]
 
 [ext_resource type="Texture2D" uid="uid://cpc0acx35jvh7" path="res://art/cannon.png" id="1_86152"]
 [ext_resource type="Script" path="res://cannon.gd" id="1_vyuim"]
 [ext_resource type="AudioStream" uid="uid://btbhnfk6weiii" path="res://sounds/explosion.mp3" id="3_kbqmb"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_eecej"]
+atlas = ExtResource("1_86152")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mtwc4"]
+atlas = ExtResource("1_86152")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aaiso"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eecej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mtwc4")
+}],
+"loop": false,
+"name": &"destroy",
+"speed": 5.0
+}]
+
 [node name="Cannon" type="Area2D"]
 position = Vector2(960, 540)
 script = ExtResource("1_vyuim")
-metadata/_edit_group_ = true
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_86152")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_aaiso")
+animation = &"destroy"
 centered = false
 
 [node name="CollisionShape" type="CollisionPolygon2D" parent="."]
@@ -18,5 +40,21 @@ polygon = PackedVector2Array(112, 112, 128, 112, 128, 128, 144, 128, 144, 176, 2
 
 [node name="ExplosionAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_kbqmb")
+
+[node name="ExplosionParticles" type="CPUParticles2D" parent="."]
+position = Vector2(120, 180)
+emitting = false
+amount = 256
+lifetime = 4.0
+one_shot = true
+emission_shape = 3
+emission_rect_extents = Vector2(16, 16)
+direction = Vector2(0, -1)
+spread = 60.0
+initial_velocity_min = 256.0
+initial_velocity_max = 512.0
+scale_amount_min = 8.0
+scale_amount_max = 8.0
+color = Color(0.87451, 0.443137, 0.14902, 1)
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

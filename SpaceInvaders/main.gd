@@ -11,10 +11,6 @@ func _ready():
     startup()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-    pass
-
 
 func startup():
     startup_screen = Startup_Screen.instantiate()

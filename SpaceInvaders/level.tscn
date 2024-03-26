@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://bpoue4b1a70v8"]
+[gd_scene load_steps=8 format=3 uid="uid://bpoue4b1a70v8"]
 
 [ext_resource type="Script" path="res://level.gd" id="1_bihst"]
+[ext_resource type="Script" path="res://camera.gd" id="2_grxxk"]
 [ext_resource type="FontFile" uid="uid://b8rxppcgeproc" path="res://fonts/CosmicAlien-V4Ax.ttf" id="3_dlqg1"]
 [ext_resource type="AudioStream" uid="uid://baxbpudn77muy" path="res://sounds/laser_collision.mp3" id="3_i8tj3"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0lcbi"]
+noise_type = 3
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uin7s"]
 size = Vector2(1920, 300)
@@ -22,6 +26,11 @@ offset_bottom = 1080.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(960, 540)
+script = ExtResource("2_grxxk")
+noise = SubResource("FastNoiseLite_0lcbi")
 
 [node name="ShipTimer" type="Timer" parent="."]
 one_shot = true

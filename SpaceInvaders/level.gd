@@ -5,6 +5,7 @@ signal game_overed
 const Invasion = preload("res://invasion.tscn")
 const Cannon = preload("res://cannon.tscn")
 const Ship = preload("res://ship.tscn")
+const Laser_Particles = preload("res://laser_particles.tscn")
 
 const INVASION_LOCATION = Vector2(0, 160)
 const INVASION_LEVEL_INCREMENT = 32
@@ -15,7 +16,7 @@ const LIVES_STR = "Lives: "
 const CANNON_BBCODE = "[img]res://art/cannon_small.png[/img]"
 
 var invasion
-var invasion_count = 0
+var invasion_count = 0 # Number of invasions defeated
 var cannon
 var ship
 var score = 0
@@ -44,6 +45,7 @@ func update_lives_label():
 func spawn_invasion():
     invasion = Invasion.instantiate()
     invasion.position = INVASION_LOCATION
+    # The invasion should spawn lower each time the player wins
     invasion.position.y += INVASION_LEVEL_INCREMENT * invasion_count
     add_child(invasion)
     invasion.fired.connect(_on_invasion_fired.bind())
@@ -63,6 +65,15 @@ func spawn_ship():
     add_child(ship)
     ship.left_screen.connect(_on_ship_left_screen.bind())
     
+
+func laser_explode(location : Vector2):
+    var particles = Laser_Particles.instantiate()
+    particles.position = location
+    particles.emitting = true
+    add_child(particles)
+    await particles.finished
+    particles.queue_free()
+    
     
 func reset_ship_timer():
     $ShipTimer.wait_time = randf_range(2.0, 10.0)
@@ -70,10 +81,14 @@ func reset_ship_timer():
     
     
 func game_over():
+    # Pause the level
     call_deferred("set_process_mode", Node.PROCESS_MODE_DISABLED)
+    # Show the Game Over
     $GameOver.show()
     await get_tree().create_timer(2.0).timeout
+    # End the game
     game_overed.emit()
+    
     
 
 func _on_cannon_fired(laser, location):
@@ -87,38 +102,56 @@ func _on_laser_hit(area : Area2D):
     if invasion == null:
         return
         
+    # Get the aliens and get the parent of the area that was hit
     var aliens = invasion.get_children()
     var area_parent = area.get_parent()
+    # The location is used for the laser explosion
+    var location = area_parent.position + area.position
+    # We hit an alien
     if area_parent in aliens:
         $LaserAudio.play()
         invasion.kill_alien(area_parent)
         $ScoreLabel.text = SCORE_FMT % score
+        laser_explode(location + invasion.position)
+    # We hit the ship
     elif area == ship:
         score += ship.calculate_points()
         $LaserAudio.play()
         $ScoreLabel.text = SCORE_FMT % score
         ship.destroy()
         reset_ship_timer()
+        laser_explode(location)
 
 
 func _on_invasion_fired(projectile, location):
     var spawned_projectile = projectile.instantiate()
     spawned_projectile.position = location
     add_child(spawned_projectile)
+    spawned_projectile.add_to_group("projectiles")
     spawned_projectile.hit.connect(_on_alien_projectile_hit.bind())
     
     
 func _on_alien_projectile_hit(area : Area2D, projectile : Node2D):
+    # The defeat area only effects the aliens to cause a game over
     if area != $DefeatArea:
         projectile.queue_free()
         
     if area == cannon:
-        invasion.process_mode = Node.PROCESS_MODE_DISABLED
+        get_tree().call_group("projectiles", "queue_free")
+        # To prevent a race condition
+        if invasion != null:
+            invasion.process_mode = Node.PROCESS_MODE_DISABLED
+        # Screen shake
+        $Camera.add_trauma(1.0)
+        # Get rid of the cannon
         cannon.destroy()
         await cannon.exploded
+        
         lives -= 1
         update_lives_label()
-        invasion.process_mode = Node.PROCESS_MODE_ALWAYS
+        # Same race condition as before
+        if invasion != null:
+            invasion.process_mode = Node.PROCESS_MODE_ALWAYS
         if lives > 0:
             spawn_cannon()
         else:
@@ -144,6 +177,8 @@ func _on_defeat_area_area_entered(area):
 func _on_invasion_alien_killed(points : int):
     score += points
     var aliens = get_tree().get_nodes_in_group("aliens")
+    # The player killed all the aliens, set everything up and prevent the cannon
+    # from firing until there's a new invasion
     if aliens.size() == 0:
         invasion.queue_free()
         invasion_count += 1
@@ -157,14 +192,14 @@ func _on_invasion_alien_killed(points : int):
 
 # These signals deal with the double boolean state machine to change the
 # direction of the invasion
-func _on_left_boundary_area_area_entered(area):
+func _on_left_boundary_area_area_entered(_area):
     if not left_area_initially_entered:
         left_area_initially_entered = true
         invasion.reverse()
         right_area_initially_entered = false
 
 
-func _on_right_boundary_area_area_entered(area):
+func _on_right_boundary_area_area_entered(_area):
     if not right_area_initially_entered:
         right_area_initially_entered = true
         invasion.reverse()

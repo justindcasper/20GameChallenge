@@ -32,11 +32,6 @@ func _ready():
     $AdvanceTimer.start()
     $FireTimer.wait_time = randf_range(0.5, 4.0)
     $FireTimer.start()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-    pass
     
 
 func generate_row(row : int, alien_prefab : PackedScene):
@@ -89,8 +84,10 @@ func choose_random_alien():
         
 func drop_projectile():
     var alien = choose_random_alien()
+    # Have to check because of a race condition
     if alien != null:
         var _alien = alien.get_node("Alien")
+        # Another race condition
         if _alien != null:
             var center_location = alien.get_node("Alien").position
             var location = alien.position + center_location + position

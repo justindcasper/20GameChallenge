@@ -56,7 +56,9 @@ func move(direction : Vector2, delta : float):
 func destroy():
     can_move = false
     can_fire = false
+    $Sprite.play("destroy")
     $ExplosionAudio.play()
+    $ExplosionParticles.emitting = true
     await $ExplosionAudio.finished
     exploded.emit()
     queue_free()
