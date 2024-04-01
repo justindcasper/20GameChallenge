@@ -7,6 +7,8 @@ radius = 4.0
 
 [node name="Bullet" type="RigidBody2D"]
 mass = 0.05
+max_contacts_reported = 1
+contact_monitor = true
 script = ExtResource("1_xufdo")
 metadata/_edit_group_ = true
 
@@ -22,7 +24,7 @@ explosiveness = 1.0
 spread = 180.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 64.0
-initial_velocity_max = 64.0
+initial_velocity_max = 256.0
 color = Color(0, 1, 0, 1)
 
 [node name="TimerToLive" type="Timer" parent="."]
@@ -30,4 +32,6 @@ wait_time = 0.8
 one_shot = true
 autostart = true
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
 [connection signal="timeout" from="TimerToLive" to="." method="_on_timer_to_live_timeout"]

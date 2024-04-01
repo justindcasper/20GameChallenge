@@ -1,14 +1,6 @@
 extends ScreenwrappedRigidBody2D
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-    pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-    pass
+var in_transit := false
     
     
 func _draw():
@@ -17,3 +9,12 @@ func _draw():
 
 func _on_timer_to_live_timeout():
     queue_free()
+
+
+func _on_body_entered(_body):
+    if in_transit:
+        queue_free()
+
+
+func _on_body_exited(_body):
+    in_transit = true

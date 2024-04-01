@@ -14,3 +14,8 @@ offset_bottom = 1080.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="AsteroidTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="AsteroidTimer" to="." method="_on_asteroid_timer_timeout"]
