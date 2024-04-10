@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm5tstcb74jk2"]
+
+[ext_resource type="Script" path="res://main_menu.gd" id="1_m6u3u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vc534"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 1, 0, 1)
+
+[sub_resource type="Theme" id="Theme_jwbt3"]
+default_font_size = 32
+/colors/Green = Color(0, 1, 0, 1)
+Button/colors/font_color = Color(0, 1, 0, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/styles/normal = SubResource("StyleBoxFlat_vc534")
+Label/colors/font_color = Color(0, 1, 0, 1)
+Label/font_sizes/font_size = 64
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1080.0
+offset_bottom = 1080.0
+theme = SubResource("Theme_jwbt3")
+script = ExtResource("1_m6u3u")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(1080, 1080)
+layout_mode = 2
+offset_right = 1080.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+offset_left = 369.0
+offset_top = 256.0
+offset_right = 711.0
+offset_bottom = 344.0
+text = "ASTEROIDS"
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 450.0
+offset_top = 515.0
+offset_right = 630.0
+offset_bottom = 564.0
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "Start Game"
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 455.0
+offset_top = 584.0
+offset_right = 625.0
+offset_bottom = 633.0
+text = "Quit Game"
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]

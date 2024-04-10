@@ -18,4 +18,28 @@ color = Color(0, 0, 0, 1)
 [node name="AsteroidTimer" type="Timer" parent="."]
 autostart = true
 
+[node name="ScoreLabel" type="Label" parent="."]
+offset_right = 256.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 32
+
+[node name="LivesLabel" type="Label" parent="."]
+offset_left = 952.0
+offset_right = 1080.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 2
+
+[node name="GameOverLabel" type="Label" parent="."]
+visible = false
+modulate = Color(0, 1, 0, 1)
+offset_left = 173.0
+offset_top = 452.0
+offset_right = 907.0
+offset_bottom = 627.0
+theme_override_font_sizes/font_size = 128
+text = "GAME OVER"
+
 [connection signal="timeout" from="AsteroidTimer" to="." method="_on_asteroid_timer_timeout"]

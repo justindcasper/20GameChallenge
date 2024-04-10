@@ -1,5 +1,7 @@
 extends Node2D
 
+signal game_overed
+
 const Ship = preload("res://ship.tscn")
 const Packed_Asteroid = preload("res://asteroid.tscn")
 
@@ -21,11 +23,22 @@ const ASTEROID_FORCE_MAGNITUDE_MAX = 1000.0
 var ship
 var ship_last_position : Vector2 # Set when the ship dies after this initial value
 var screen_size : Vector2
+# Player score and lives
+var score : int:
+    set(value):
+        score = value
+        $ScoreLabel.text = "Score: %07d" % score
+var lives : int:
+    set(value):
+        lives = value
+        $LivesLabel.text = "Lives x%d" % lives
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
     screen_size = get_viewport_rect().size
     ship_last_position = Vector2(screen_size.x / 2, screen_size.y / 2)
+    score = 0
+    lives = 3
     spawn_ship()
 
 
@@ -84,10 +97,13 @@ func _on_asteroid_broke(body : Asteroid):
     match radius:
         BIG_ASTEROID_SIZE:
             body.radius = MEDIUM_ASTEROID_SIZE
+            score += 10
         MEDIUM_ASTEROID_SIZE:
             body.radius = SMALL_ASTEROID_SIZE
+            score += 20
         SMALL_ASTEROID_SIZE:
             body.destroy()
+            score += 30
         _:
             body.destroy()
             
@@ -95,9 +111,15 @@ func _on_asteroid_broke(body : Asteroid):
 func _on_ship_exploded(location : Vector2):
     ship_last_position = location
     ship.destroy()
+    lives -= 1
     $AsteroidTimer.stop()
     await get_tree().create_timer(1.5).timeout
     get_tree().call_group("asteroids", "destroy")
-    await get_tree().create_timer(1.0).timeout
-    spawn_ship()
-    $AsteroidTimer.start()
+    if lives > 0:
+        await get_tree().create_timer(1.0).timeout
+        spawn_ship()
+        $AsteroidTimer.start()
+    else:
+        $GameOverLabel.visible = true
+        await get_tree().create_timer(2.0).timeout
+        game_overed.emit()
